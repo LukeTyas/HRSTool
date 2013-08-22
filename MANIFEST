@@ -1,0 +1,118 @@
+This distribution of FIEStool contains the following files :
+
+autoLoader.py
+   Performs automatic loading of configuration files based on the contents
+   of FITS headers, and provide a GUI to define and edit selection rules..
+
+autoQueue.py
+   Manages the queues of frames that are waiting to be processed or have been
+   processed. Automatic updating of the queues when data appears or disappears
+   from disk is also implemented.
+
+calibFrame.py
+   Interactively calculate calibration frames (master biases, flats etc.) and
+   definition files such as order locations and wavelength solutions.
+
+CHANGES
+   List all changes to the software in a chronological order
+
+checkImport.py
+  Checks that the minimum version of required software packages is installed
+
+configFrame.py
+   Provide a window to interactively edit (a given list of) settings defined by
+   the 'config' module. This window can either be a top-level window, or
+   embedded in another window.
+
+configobj.py
+   A config file reader/writer that supports nested sections in config files.
+
+config.py
+   Provide default settings for the reduction process, and methods to
+   operate on these settings.
+
+COPYRIGHT
+   The copyright notice of this distribution
+
+default_autoload.acfg
+   A default (empty) configuration for the automatic loading of configuration
+   files
+
+default.cfg
+   A default (near-empty) user configuration file for FIEStool
+
+FIEStool.py
+   Main routines for the automatic data reduction interface.
+
+fileUtils.py
+   File-related utility routine(s) that make life easier.
+
+frameUtils.py
+   Frame-related utility routine(s) that make life easier.
+
+irafDbNames.py
+   Terrible routine to get the proper path names of IRAF database files.
+
+irafWrappers.py
+   A collection of short routines that wrap around the PyRAF calls to IRAF
+   routines. Apart from making the PyRAF call, these routines take care of
+   everything surrounding the call, such as copying the calibration files,
+   preparing the task using parameter definition files, as well as
+   the final cleaning of temporary files.
+
+MANIFEST
+   This file
+
+messageLog.py
+   Provides facility for logging messages, warnings and errors in a logfile, as
+   well as a window to view this log.
+
+myDialog.py
+   A not-so-nice module that modifies the file dialog methods in Pythons
+   FileDialog (part of the Tkinter library distributed with Python) to
+   contain fields for selected FITS headers. Includes a new dialog for
+   selecting several files at once is included.
+
+pipeFrame.py
+   Provides a widget containing a list of tasks to perform. Tasks can be
+   (de)selected manually. This module also contains routines to control the
+   scheduling and execution of frame reductions using threads. Parts of this
+   module will run as a child thread, in order to relieve load from the main
+   thread, of which the main task is to keep the GUI updated.
+
+plotFrame.py
+   Provides an interface to automatically or manually plot a reduced frame.
+
+plotUtils.py
+   A collection of utility routines that make plotting life easier....
+
+popUp.py
+   Provide simple popup windows holding help texts and attach it to
+   existing Tkinter objects on screen
+
+settings/
+   A subdirectory intended to contain user configuration files
+
+taskBar.py
+   Provide task- and status-bar for pipeFrame or calibFrame.
+
+taskconf/
+   A subdirectory that contains configuration files tailored for FIES data
+   reduction, used by IRAF/PyRAF
+
+taskManager.py
+   Routine that manages and wraps around the different reduction tasks. Any
+   errors that occur when executing tasks are caught and relayed to the message
+   logging facility.
+
+tasks.py
+   Module containing all the steps that are involved to properly reduce
+   an observed frame of FIES. The routines are valid for the general case of
+   cross-dispersed echelle spectrographs, and should work for other instruments.
+
+uparm/
+   A subdirectory which needs to exist in order to be able to perform IRAF/PyRAF
+   tasks
+
+waveUtils.py
+   Wavelength-definition-related utility routines that make life easier.

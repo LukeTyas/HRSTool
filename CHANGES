@@ -1,0 +1,573 @@
+################################################################################
+#                                                                              #
+# This file is distributed as part of the FIEStool data reduction package.     #
+#                                                                              #
+# Copyright (c) 2005 NOTSA; All Rights Reserved;                               #
+# Original author: Eric Stempels; See COPYRIGHT file for details               #
+#                                                                              #
+################################################################################
+
+
+Still to do (starting to be historical);
+
+- Write more documentation
+
+- Create a tarball with reference frames.
+
+- Create a script that will configure correct directory names when installing
+  reference frames.
+
+- Error handling: the python error output is very useful, but maybe could be
+  reduced a bit to not confuse the end user. The backtrace maybe should be
+  assigned a lower log-level than the actual error. (but then it cannot be
+  recovered!)
+
+FIEStool-1.3.2.1
+================
+
+(25/08/11)
+
+- Minor update that deals correctly with the version of dependencies. Previous
+  versions choke with PyRAF >= 1.10, for example.
+- Also, adds the "bpm" parameter for fits1d, which prevents errors with newer
+  IRAF versions.
+
+FIEStool-1.3.2
+==============
+
+(27/07/09)
+
+- Added a detailed COPYRIGHT statement to the distribution. In addition, all
+  distributed (text-based) files include a copyright header.
+
+(24/07/09)
+
+- Added FIEStool version to HISTORY header of the output files, such that
+  one can trace which version was used for the reduction of a particular
+  file.
+
+
+(21/07/09)
+
+- Fixed a bug that was introduced in 1.3.1, that gave rise to program
+  crashes when the FITS-based file dialogs tried to scan files that were
+  non-FITS.
+
+(16/06/09)
+
+- More updates to the scattered light routine. Now tested with 3x2, 2x2 and
+  1x1, including interlaced. Polynomial order for bg-fitting is now 10 in x,
+  and 8 in y.
+
+FIEStool-1.3.1
+==============
+
+(30/03/09)
+
+- Updated routine for scattered light subtraction, such that more pixels
+  between orders will be considered for background fitting. There is now
+  also an additional debugging plot available to inspect the background fits.
+
+(28/05/09)
+
+- Also made FIEStool remember FITS header keywords when building the file dialogs.
+  This makes the dialogs much faster (except the first time, obviously).
+
+
+FIEStool-1.3.0
+==============
+
+(02/03/09)
+
+- Fixed bugs in autoLoader:
+    (1) Make it possible to test on header keywords that are not in the primary
+        HDU, but in later HDUs.
+    (2) Fixed problem with reading of autoLoader config file. Old definitions
+	are now properly removed.
+
+- Completely rewrote how scattered light is subtracted. A 2-d polynomial is now
+  fitted to the background with numpy-based routines, and not with IRAF. This
+  also includes an (optional) rough order-finding algorithm, such that it is
+  possible to subtract the background before the user does interactive order
+  finding. This allows FIEStool to correctly find all orders, and not just the
+  ones that exceed the highest background threshold.
+
+  The new background subtraction algorithm is also implemented in the normal
+  processing of science frames. This method also works on low-resolution (2x2)
+  spectra. The rewriting of the bg-subtraction is the primary reason to increae
+  the release numbering to 1.3.0
+
+  It is still possible to revert to the old subtraction method by modifying the
+  boolean parameter 'newmethod' in the 'scattering' and 'findorders' tasks.
+
+
+FIEStool-1.2.14
+===============
+
+(28/12/08)
+
+- Added a new task 'updatethar' that will recalculate the wavelength solution if
+  a ThAr frame is processed. Ready for in-depth testing.
+  NB: this task is not yet part of the (default) user configuration file.
+- Fixed that all taskbars are properly cleared/greyed when starting to process
+  a new frame
+- Made it possible to enter empty values as filename selections, so one can
+  remove references that no longer exist from the config file.
+- Allow value 0 to be entered for an integer.
+
+(21/12/08)
+
+- Improved extraction of interlaced ThAr by not recentering the orders
+  and eliminating the 'clean' algorithm (ThAr only!).
+- This improves the intra-night precision of RV measurements to 5 m/s,
+  as long as the interlaced orders are properly defined, and have not
+  too large widths.
+- Added header with determined pixel shift
+
+FIEStool-1.2.13 (unreleased)
+============================
+
+(17/12/08)
+
+- Fixed an error in the threshold calculation for the combined flat field.
+- Fixed problem of not being able to read autoloader configuration
+  interactively.
+
+(18/08/08)
+
+Added functionality to extract and work with additional bands that include
+estimates for the uncertainty. This is activated by modifying the apsum.par
+configuration files such that uncertainties are extracted. The additional bands
+are, however, not yet propagated to the merged spectra. (Note - extracting the
+uncertainties is now the standard behavior).
+
+(20/05/08)
+
+FIEStool-1.2.12
+===============
+
+- Prepared a command-line version for batch scripting (not yet included in
+  distributed version)
+
+- Corrected small error when reading configuration files. The current reduction
+  mode is now retained when a new file is read.
+- Added filename to output when combining biases and flats
+- Introduced automatic scrollbar to the main FIEStool window
+- Changed behavior of order finding routine to 'recenter' on start
+- Save a copy of the order definition when determining a new one
+  (useful for quality control)
+- Added 'interactive' variables to 'findord', 'findinterlacedord' and
+  'wavecal' tasks. These can then be turned off when scripting from the command
+  line.
+
+
+FIEStool-1.2.11
+===============
+
+(21/03/08)
+
+Added a few lines to make it possible to plot cross-order profiles other than
+just the center row
+
+In addition, updated the parameter settings for scattered light subtraction
+(apscat1.par and apscat2.par) to better take into account the variable
+background of the DoubleSpec mode. This removed small 2-3% deep depressions
+in the continuum of hot stars.
+
+(13/03/08)
+
+Changed heliocentric header name from VHEL to VHELIO. This gives compatibility
+with IRAF.
+
+
+FIEStool-1.2.10
+===============
+
+(18/12/07)
+
+Added functionality :
+
+  - Imports and versions of numpy, pyfits, pyraf and biggles checked when
+    starting FIEStool
+  - Added line to dispcor.par file, so that also IRAF version 2.12.3-BETA will
+    work
+
+Updated :
+
+  - Current reduction mode now properly maintained in the configuation parameter
+  - Include a default autoloader configuration in the tarball distribution
+
+
+FIEStool-1.2.9
+==============
+
+(01/12/07)
+
+Several improvements :
+
+  - FIEStool now read text-based configuration files
+  - AutoLoader now has its own menu and save files
+  - Config files have default suffix : 
+    ".cfg"  for normal config files
+    ".acfg" for autoloader config files
+  - Framed for which the autoLoader aborts the reduction are no longer
+    autoplotted (buxfix)
+  - Filename filter entry in autoQueue is now a normal (configurable) options
+  - Starting and ending wavelengths for plots are now also normal options
+  - Tasks that run in threads give time for the GUI to update
+  - The reduction modes and its corresponding tasks are controlled from the
+    config file (and thus, controllable by the user)
+  - Plotting the extracted spectra is now a real pipeline task
+  - Non-FITS-file dialogs are now handled by tkFileDialog
+  
+
+
+FIEStool-1.2.5
+==============
+
+(25/11/07)
+
+Added lots of bugfixes and features :
+
+  - AutoScrollbar for configFrame and calibFrame
+  - Added 'abort' feature to autoLoader
+  - Removed the 'status bar' from the messageLog (users found it confusing)
+  - Fixed behavior of LoadFITSfile, and put new default search pattern (*.fit*)
+  - Increased maximum number of features for ec(re)identify from 100 to 1000
+  - Improved scattered light subtraction (now with spline instead of 'stiff'
+    legendre polynomial
+  - Added an option to the autoLoader to stop further processing of a frame
+
+
+FIEStool-1.2
+============
+
+(21/11/07)
+
+Fixed a bug in the subtraction of scattered light. The parameters for the
+auxilary tasks apscat1 and apscat2 were not set properly. A similar issue
+existed for apfind.
+
+Also removed the interactive query for number of orders in apfind.
+
+
+(15/11/07)
+
+The implemention of numpy showed that there is a difference in the behaviour
+of the rough filter used to correct the instrumental blaze function. At the
+frame edges, the convolution would pad the arrays with zeroes, thus forcing the blaze functions to zero value at the edge. This has been corrected by
+inserting the original blaze function at the five outmost pixels (which is
+where the edge effect appeared).
+
+(25/10/07)
+
+Corrected a 'bug' in the calculation of average biases and summed flats. The
+frames are so large that the averaging should be done in double precision. This
+was giving really big errors in the results (more than 100 ADUs). Numpy wasn't
+smart enough to detect this or complain...
+
+(01/08/07)
+
+- Major change! Moved from numarray to numpy, since numarray support will be
+  phased out soon by STScI.
+
+  This involved changing the code in many places. Fortunately, numpy is very
+  similar to numarray.
+
+- Implemented a proper determination of the threshold for choosing
+  pixel-to-pixel corrections vs smoothed FF functions.
+
+- Decreased memory requirements for combining biases and flats. Instead of
+  having a large datacube in-memory, frames are read from disk and processed
+  immediately.
+  
+- Updated the error handling such that errors are handled better in threads
+
+
+(20/12/2006)
+
+- Added another change in the call to the PyRAF interactive windows (this time: splot).
+- Changed all occurences of Float32 to Float64, to get higher wavelength precision.
+
+
+FIEStool-1.1.1
+==============
+
+(14/09/2006)
+
+Made some small changes to calls to PyRAF routines that use interactive windows (i.e. apfind and ecidentify), in order to avoid an unresponsive window on slow
+displays.
+
+FIEStool-1.1
+============
+
+(29/08/2006)
+
+Minor updates only. Added some missing files to the distribution tarball
+and fixed an error in the calculation of the size of binned frames. Also
+added a new ThAr corresponding to the latest layout of FIES, with a larger
+wavelength region.
+
+
+FIEStool-1.0
+============
+
+(25/11/2005)
+
+Version 1.0 released !
+
+Lots of updates, including :
+
+- Extended manual
+- Included hyperrefs in manual
+- Created web page
+
+
+FIEStool-0.9.6.2
+================
+
+(23/11/2005)
+
+- Renamed many tasks so that 'master' only refers to stable input data, in
+  this case the 'master' wavelength definition. Also updated GUI elements and
+  comments. Some old names still exist in the source code.
+
+- Created a command line startup option that will allow access to the
+  calibration frame (and no access as default). In this way one avoids that
+  the user messes up the existing set of configuration frames.
+
+- A lot of updates to the documentation
+
+- Corrected a small bug in the AutoLoader related to restoring old AutoLoader
+  rules when starting the program.
+
+
+(17/11/2005)
+
+- Created ThAr atlas based on FIES data.
+
+- Recreated the screenshots included in the manual, reflecting
+  a real configuration state on elena.
+
+- Added command-line option "-c" or "--calib". Not giving this parameter
+  will hide the calibration frame from the interface, so that the user will
+  not accidentaly delete/overwrite existing reference data.
+
+(15/11/2005)
+
+- Changed flat field generation to summing instead of averaging
+
+- Updated the routine to generate 3-dimensional datasets so that
+  the data will remain in memory after closing the source FITS file
+  (by using the .copy() method...)
+
+- Changed the default output values in the rvcorrect.par file to zero,
+  instead of some arbitrary (=confusing) number.
+
+(10/11/2005)
+
+- Commented last module - 'mainFrame' (was about time!)
+
+- Extended manual with instructions on how to modify the software
+
+- Moved Chebychev polynomial calculations from chebev.py into plotUtils.py
+  and removed chebev.py (it was only one function anyway).
+
+- Added full functionality for bad pixel mask processing. Bad pixels are set
+  to zero. See also bias subtraction on how zero-valued pixels are treated.
+
+- Moved software and documentation into CVS repository
+
+
+
+FIEStool-0.9.6.1
+================
+
+(26/10/2005)
+
+- Added option of using 'master' wavelength definition that will be used
+  as a first guess when determining new wavelength solutions.
+
+
+
+FIEStool-0.9.6
+==============
+
+(04/10/2005) ... A _lot_ of progess since last update. 
+
+- Source code in 'tasks.py' is now fully commented.
+
+- Added and modified routines in frameUtils in order to be able to process
+  Multi-Extension FITS files
+  
+- Allow for flipping and rotation of input frames before processing.
+
+- Debugged and rewritten wavelength and aperture definition file copying.
+
+- Changed layout of the automatic plotting checkbox to a format similar to
+  the task checkboxes.
+
+- Split plotting button into 'Plot last spectrum' and 'Plot other spectrum'
+
+- Tested FIEStool on MUSICOS data... Worked reasonably well.
+
+- Logfiles are now really saved to disk.
+
+- A continuously updated logfile is maintained during each session.
+
+
+FIEStool-0.9.5.5
+================
+
+(13/04/2005)
+
+- As noted on 06/04, the wavelength definition files get longer and longer,
+  and eventually assigning wavelengths to frames breaks down. Added a new
+  routine that will clean the IRAF database when extracting orders or
+  assigning wavelengths.
+
+
+(12/04/2005)
+
+- Streamlined the software. Moved utility routines into different files.
+  Experimented with putting the tasks into a subdirectory (as a package), but
+  that does not make much sense if the tasks are making calls to routines
+  in the main directory (such as messageLog).
+
+- Investigated the possibility to use matplotlib for visualization, but
+  rejected it again. Matplotlib has rather strong requirements on the system,
+  and is much more difficult to install than Biggles. As long as there will
+  be an IRAF-like plotting facility, the user can do more or less the same.
+
+(08/04/2005)
+
+- Check whether the recovered offsets from interlaced calibration lamp spectra
+  make sense and have the correct sign.
+
+(06/04/2005)
+
+- Added a new reduction mode "DoubleSpec" to process interlaced calibration
+  lamp spectra.  
+
+- The wavelength definition files stored in the IRAF database is appended to
+  for every new determination of a solution. If the number of solutions gets
+  large, the is no longer possible to read these definition files. Is this
+  a real problem? (YES)
+
+
+FIEStool-0.9.5
+==============
+
+(15/03/2005)
+
+- Did a lot of work on getting the correct blaze shape. For low S/N data in the
+  blaze function, a fitted curve is used. One needs quite a high-order
+  polynomial to fit this properly.
+  
+  Below 6000Å, blaze correction is still a bit off at the end of the spectral
+  orders. This is only a real problem in frames with very high signals. As long
+  as the level of exposure is similar as the flat-field, blaze correction works
+  good. A 'hotter' and flatter flat-field is required.
+
+(14/03/2005)
+
+- Corrected small bug in the autoLoader
+
+(08/03/2005)
+
+- Made BIAS processing more efficient by concentrating calculations
+  in numarray
+  
+- Reviewed FLAT normalization. 'fit1d'-method gives better result
+
+(07/03/2005)
+
+- Improved blaze shape determination and flat-fielding procedures
+
+(28/02/2005 - 02/03/2005)
+
+- Modified BIAS combining to use more Numarray, and reject any pixels that are
+  more than 5 times the standard deviation (=RON) away from the mean.
+
+- Plot histogram when calculating the master BIAS frame
+
+- Changed plotting procedure to plot single spectra. Last modifications were
+  a bit too hard on the code...
+
+- Rewrote FLAT combining to subtract BIAS from each frame before averaging
+
+- Moved creation of 3D dataset (for BIAS and FLAT combining) to a seperate
+  routine in imageUtils
+
+- Adjusted scattering parameters to a much more agressive curve fitting to the
+  inter-order light.
+
+- Found and corrected a bug in the scattered light fitting routine of
+  'iraftasks.py'. Now different polynomials are used for along and across
+  the dispersion direction.
+
+FIEStool-0.9.4
+==============
+
+(24/02/2005)
+
+- Plotting routine now takes wavelength ranges for wavelength calibrated
+  spectra, and order numbers for spectra without any wavelength information.
+
+- Reordered layout of plotting buttons.
+
+
+FIEStool-0.9.3.5
+================
+
+(21/02/2005)
+
+- Added order merging task
+
+- Updated plotting routine to handle 1D spectra
+
+- Trying to change plotting behavior to get hardcopy of plots.. Not finished
+  Was rather difficult - removed again (22/02/2005)
+
+
+FIEStool-0.9.3
+==============
+
+(17/02/2005)
+
+- Made mode-specific task configuration possible
+
+- Added rejection of bad pixels for 'Advanced' reduction
+
+- Changed color of disabled fields to black instead of (almost) invisible grey
+
+
+FIEStool-0.9.2
+==============
+
+(11/02/2005)
+
+- Removed all interactive IRAF prompts when defining orders
+
+- Added task to plot order locations
+
+- Fixed handling of non-existent wavelength definitions
+
+- Produce error messages when encountering incompatible frame sizes
+
+- Cleaned up the list of task parameter files
+
+
+FIEStool-0.9.1
+==============
+
+- Fixed compatibility issues. Now works on elena.
+
+
+FIEStool-0.9
+============
+
+- Beta (alpha?) release.
+
+- Didn't work on elena because of incompatibility issues between
+  Python 2.2.2 and 2.1.
